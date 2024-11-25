@@ -7,8 +7,8 @@ class Node {
 }
 
 class Tree {
-  constructor(array) {
-    this.root;
+  constructor(arr) {
+    this.root = this.buildTree(arr);
   }
 
   buildTree(arr) {
@@ -76,5 +76,28 @@ class Tree {
       return root;
     }
     return createBST(arr, 0, arr.length - 1);
+  }
+
+  insert(value, node = this.root) {
+    // create a tree if the tree is empty
+    if (node === null) {
+      node = new Node(value);
+      return node;
+    }
+
+    // don't allow for duplicates
+    if (node.data === value) {
+      return node;
+    }
+
+    // recursively loop until correct leaf node
+    if (value < node.data) {
+      node.left = this.insert(value, node.left);
+    }
+    if (value > node.data) {
+      node.right = this.insert(value, node.right);
+    }
+
+    return node;
   }
 }
