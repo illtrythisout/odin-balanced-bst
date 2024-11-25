@@ -100,4 +100,48 @@ class Tree {
 
     return node;
   }
+
+  deleteItem(value, node = this.root) {
+    function getSuccessor(current) {
+      if (current.right === null) {
+        return null; // No successor if there is no right child
+      }
+      current = current.right;
+      while (current !== null && current.left !== null) {
+        current = current.left;
+      }
+      return current;
+    }
+    function delNode(value, node) {
+      // Base case
+      if (node === null) {
+        return node;
+      }
+
+      // If value to be searched is in a subtree
+      if (node.data > value) {
+        node.left = delNode(value, node.left);
+      } else if (node.data < value) {
+        node.right = delNode(value, node.right);
+      } else {
+        // If node matches with the given data
+
+        // Cases when node has 0 children or
+        // only right child
+        if (node.left === null) return node.right;
+
+        // When node has only left child
+        if (node.right === null) return node.left;
+
+        // When both children are present
+        let successor = getSuccessor(node);
+        if (successor !== null) {
+          node.data = successor.data;
+          node.right = delNode(successor.data, node.right);
+        }
+      }
+      return node;
+    }
+    delNode(value, node);
+  }
 }
