@@ -144,4 +144,19 @@ class Tree {
     }
     delNode(value, node);
   }
+
+  find(value, node = this.root) {
+    // base case
+    if (node === null || node.data === value) {
+      return node;
+    }
+
+    // recursively loop until correct leaf node
+    if (value < node.data) {
+      return this.find(value, node.left);
+    }
+    if (value > node.data) {
+      return this.find(value, node.right);
+    }
+  }
 }
