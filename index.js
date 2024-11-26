@@ -225,6 +225,19 @@ class Tree {
     callback(node);
   }
 
+  height(node) {
+    if (node === null) return -1;
+
+    let leftHeight = this.height(node.left);
+    let rightHeight = this.height(node.right);
+
+    if (leftHeight > rightHeight) {
+      return leftHeight + 1;
+    } else {
+      return rightHeight + 1;
+    }
+  }
+
   depth(node) {
     let depthCounter = 0;
 
@@ -250,21 +263,3 @@ class Tree {
     return depthCounter;
   }
 }
-
-const prettyPrint = (node, prefix = '', isLeft = true) => {
-  if (node === null) {
-    return;
-  }
-  if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
-  }
-  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
-  if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
-  }
-};
-
-let array = [4, 1, 4, 7, 9, 2, 3, 6, 4, 1, 10, 2, 11, 8];
-const tree = new Tree(array);
-prettyPrint(tree.root);
-console.log(tree.height(tree.root.left.right.right.right));
