@@ -225,20 +225,20 @@ class Tree {
     callback(node);
   }
 
-  height(node) {
-    let heightCounter = 0;
+  depth(node) {
+    let depthCounter = 0;
 
     function findNode(node, currentNode) {
       if (node === null) {
-        heightCounter = null;
+        depthCounter = null;
         return;
       }
 
       if (node.data < currentNode.data) {
-        heightCounter++;
+        depthCounter++;
         findNode(node, currentNode.left);
       } else if (node.data > currentNode.data) {
-        heightCounter++;
+        depthCounter++;
         findNode(node, currentNode.right);
       } else {
         // current node is the correct node
@@ -247,6 +247,24 @@ class Tree {
     }
     findNode(node, this.root);
 
-    return heightCounter;
+    return depthCounter;
   }
 }
+
+const prettyPrint = (node, prefix = '', isLeft = true) => {
+  if (node === null) {
+    return;
+  }
+  if (node.right !== null) {
+    prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+  }
+  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+  if (node.left !== null) {
+    prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+  }
+};
+
+let array = [4, 1, 4, 7, 9, 2, 3, 6, 4, 1, 10, 2, 11, 8];
+const tree = new Tree(array);
+prettyPrint(tree.root);
+console.log(tree.height(tree.root.left.right.right.right));
