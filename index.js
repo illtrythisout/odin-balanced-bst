@@ -167,9 +167,9 @@ class Tree {
       return;
     }
 
-    // if (typeof callback !== "function") {
-    //   throw new Error('No callback function provided');
-    // }
+    if (typeof callback !== 'function') {
+      throw new Error('No callback function provided');
+    }
 
     // add root to the queue
     queue.push(this.root);
@@ -188,21 +188,40 @@ class Tree {
       queue.shift();
     }
   }
+
+  preOrder(callback, node = this.root) {
+    if (typeof callback !== 'function') {
+      throw new Error('No callback function provided');
+    }
+
+    if (node === null) return null;
+
+    callback(node);
+    this.preOrder(callback, node.left);
+    this.preOrder(callback, node.right);
+  }
+
+  inOrder(callback, node = this.root) {
+    if (typeof callback !== 'function') {
+      throw new Error('No callback function provided');
+    }
+
+    if (node === null) return null;
+
+    this.inOrder(callback, node.left);
+    callback(node);
+    this.inOrder(callback, node.right);
+  }
+
+  postOrder(callback, node = this.root) {
+    if (typeof callback !== 'function') {
+      throw new Error('No callback function provided');
+    }
+
+    if (node === null) return null;
+
+    this.postOrder(callback, node.left);
+    this.postOrder(callback, node.right);
+    callback(node);
+  }
 }
-
-const prettyPrint = (node, prefix = '', isLeft = true) => {
-  if (node === null) {
-    return;
-  }
-  if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
-  }
-  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
-  if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
-  }
-};
-
-let array = [4, 1, 4, 7, 9, 2, 3, 6, 4, 1, 10, 2, 11, 8];
-const tree = new Tree(array);
-prettyPrint(tree.root);
