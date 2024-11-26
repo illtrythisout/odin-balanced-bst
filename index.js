@@ -224,4 +224,29 @@ class Tree {
     this.postOrder(callback, node.right);
     callback(node);
   }
+
+  height(node) {
+    let heightCounter = 0;
+
+    function findNode(node, currentNode) {
+      if (node === null) {
+        heightCounter = null;
+        return;
+      }
+
+      if (node.data < currentNode.data) {
+        heightCounter++;
+        findNode(node, currentNode.left);
+      } else if (node.data > currentNode.data) {
+        heightCounter++;
+        findNode(node, currentNode.right);
+      } else {
+        // current node is the correct node
+        return;
+      }
+    }
+    findNode(node, this.root);
+
+    return heightCounter;
+  }
 }
