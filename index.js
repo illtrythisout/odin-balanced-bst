@@ -279,4 +279,11 @@ class Tree {
       return false;
     }
   }
+
+  rebalance() {
+    let unbalancedArr = [];
+    this.inOrder((node) => unbalancedArr.push(node.data));
+
+    this.root = this.buildTree(unbalancedArr);
+  }
 }
