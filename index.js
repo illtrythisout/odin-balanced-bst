@@ -159,4 +159,50 @@ class Tree {
       return this.find(value, node.right);
     }
   }
+
+  levelOrder(callback) {
+    let queue = [];
+
+    if (this.root === null) {
+      return;
+    }
+
+    // if (typeof callback !== "function") {
+    //   throw new Error('No callback function provided');
+    // }
+
+    // add root to the queue
+    queue.push(this.root);
+
+    // loop as long as the queue contains elements
+    while (queue.length > 0) {
+      // add children of first queue element
+      if (queue[0].left !== null) {
+        queue.push(queue[0].left);
+      }
+      if (queue[0].right !== null) {
+        queue.push(queue[0].right);
+      }
+
+      callback(queue[0]);
+      queue.shift();
+    }
+  }
 }
+
+const prettyPrint = (node, prefix = '', isLeft = true) => {
+  if (node === null) {
+    return;
+  }
+  if (node.right !== null) {
+    prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+  }
+  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+  if (node.left !== null) {
+    prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+  }
+};
+
+let array = [4, 1, 4, 7, 9, 2, 3, 6, 4, 1, 10, 2, 11, 8];
+const tree = new Tree(array);
+prettyPrint(tree.root);
